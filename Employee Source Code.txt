@@ -1,0 +1,80 @@
+
+         Save Code
+
+         try {
+            String EmployeeName = txtName.getText();
+            String Email = txtEmail.getText();
+            String Address = txtAddress.getText();
+            String Salary = txtSalary.getText();
+            pst = con.prepareStatement("INSERT INTO emptab(employeename,email,address,salary)VALUES(?,?,?,?)");
+            pst.setString(1, EmployeeName);
+            pst.setString(2, Email);
+            pst.setString(3, Address);
+            pst.setString(4, Salary);
+            int a = pst.executeUpdate();
+            if (a==1){
+                JOptionPane.showMessageDialog(this,"Record Saved Successfully");
+            
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Error, Please Try Again");
+                
+                ShowTableData();
+            }
+
+
+
+          Delete Code
+
+         try {
+            String value1=txtId.getText();
+            String value2=txtName.getText();
+            String value3=txtEmail.getText();
+            String value4=txtAddress.getText();
+            String value5=txtSalary.getText();
+        
+            String sql="DELETE FROM emptab where employeeid='"+value1+"'";
+            pst=con.prepareStatement(sql);
+            int deleteCount = pst.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Record Deleted Successfully");
+        } catch (SQLException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+
+        New Code
+
+
+        txtName.setText("");
+        txtEmail.setText("");
+        txtAddress.setText("");
+        txtSalary.setText("");
+
+
+
+        ShowTableData Code
+
+
+        private void ShowTableData(){
+        
+        try {
+            int q;
+            pst = con.prepareStatement("select * from emptab");
+            rs = pst.executeQuery();
+            ResultSetMetaData rss = rs.getMetaData();
+            q = rss.getColumnCount();
+            DefaultTableModel df = (DefaultTableModel)table1.getModel();
+            df.setRowCount(0);
+            while(rs.next()){
+                Vector v2 = new Vector();
+                for(int a=1; a<q; a++){
+                    v2.add(rs.getString("EmployeeId"));
+                    v2.add(rs.getString("EmployeeName"));
+                    v2.add(rs.getString("Email"));
+                    v2.add(rs.getString("Address"));
+                    v2.add(rs.getString("Salary"));
+                }
+                
+                df.addRow(v2);
+            
